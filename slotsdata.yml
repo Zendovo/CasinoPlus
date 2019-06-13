@@ -19,40 +19,49 @@ slots:
     rows:
       0:
         a:
+          uuid:
           x: 244
           y: 70
           z: 433
         b:
+          uuid:
           x: 244
           y: 70
           z: 434
         c:
+          uuid:
           x: 244
           y: 70
           z: 435
       1:
         a:
+          uuid:
           x: 244
           y: 69
           z: 433
         b:
+          uuid:
           x: 244
           y: 69
           z: 434
         c:
+          uuid:
           x: 244
           y: 69
           z: 435
       2:
         a:
+          uuid:
           x: 244
           y: 68
           z: 433
         b:
+          uuid:
           x: 244
           y: 68
           z: 434
         c:
+          uuid:
           x: 244
           y: 68
           z: 435555

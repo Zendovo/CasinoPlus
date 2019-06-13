@@ -12,7 +12,7 @@ public class SlotsData extends ConfigManager{
 
     public boolean compareUUID(UUID uuid) {
         for (String key : config.getConfigurationSection("slots").getKeys(false)) {
-            if (uuid.toString() == "slots." + key + ".start.uuid") {
+            if (uuid.toString() == config.getString("slots." + key + ".start.uuid")) {
                 return true;
             } else {
                 return false;
@@ -23,13 +23,18 @@ public class SlotsData extends ConfigManager{
 
     public String getKey(UUID uuid) {
         for (String key : config.getConfigurationSection("slots").getKeys(false)) {
-            if (uuid.toString() == "slots." + key + ".start.uuid") {
+            if (uuid.toString() == config.getString("slots." + key + ".start.uuid")) {
                 return key;
             } else {
                 return key;
             }
         }
         return null;
+    }
+
+    public String getString(String value) {
+        String res = config.getString(value);
+        return res;
     }
 
 }
