@@ -56,7 +56,7 @@ public class SlotRow extends ConfigManager {
             case "c":
                 return c;
         }
-        return 0;
+        return 1;
     }
 
 
