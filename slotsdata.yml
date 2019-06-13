@@ -1,0 +1,58 @@
+slots:
+  spawnCasino:
+    world: world
+    wager:
+      current: 50000
+      max: 100000
+      step: 10000
+      min: 10000
+    display:
+      uuid:
+      x: 243
+      y: 69
+      z: 437
+    start:
+      uuid:
+      x: 243
+      y: 69
+      z: 430
+    rows:
+      0:
+        a:
+          x: 244
+          y: 70
+          z: 433
+        b:
+          x: 244
+          y: 70
+          z: 434
+        c:
+          x: 244
+          y: 70
+          z: 435
+      1:
+        a:
+          x: 244
+          y: 69
+          z: 433
+        b:
+          x: 244
+          y: 69
+          z: 434
+        c:
+          x: 244
+          y: 69
+          z: 435
+      2:
+        a:
+          x: 244
+          y: 68
+          z: 433
+        b:
+          x: 244
+          y: 68
+          z: 434
+        c:
+          x: 244
+          y: 68
+          z: 435555
