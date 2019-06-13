@@ -18,6 +18,7 @@ import java.util.Random;
 import java.util.UUID;
 
 public class SlotMachine extends ConfigManager {
+
     private int n = 4;
     private Random randomGen = new Random();
     private final List<String> abc = Arrays.asList("a", "b", "c");
@@ -25,12 +26,14 @@ public class SlotMachine extends ConfigManager {
     public Core plugin = Core.getPlugin(Core.class);
     private Rewards rewards;
 
+    //Constructor for ConfigManager
     public SlotMachine(Core core) {
         super(core, "slotsdata.yml");
     }
 
     public void start(String key, Player player) {
 
+        //Creating Row objects
         SlotRow row0 = new SlotRow(plugin, key, 0, randomGen.nextInt(n), randomGen.nextInt(n), randomGen.nextInt(n));
         SlotRow row1 = new SlotRow(plugin, key, 1, randomGen.nextInt(n), randomGen.nextInt(n), randomGen.nextInt(n));
         SlotRow row2 = new SlotRow(plugin, key, 2, randomGen.nextInt(n), randomGen.nextInt(n), randomGen.nextInt(n));
@@ -75,8 +78,10 @@ public class SlotMachine extends ConfigManager {
                         as2.setHelmet(getItemStack(row2.getValue(x)));
                     }
 
+                    //Get wager
                     int wager = config.getInt("slots." + key + ".wager.current");
 
+                    //Play Sound and Give Reward
                     if(Fi == 9) {
                         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                         rewards.giveReward(wager, row1.getValue("a"), row1.getValue("b"), row1.getValue("c"), player);
@@ -92,6 +97,7 @@ public class SlotMachine extends ConfigManager {
 
     }
 
+    //Get the ArmorStand by UUID
     public ArmorStand getAsByUniqueId(UUID uniqueId) {
         for (World world : Bukkit.getWorlds()) {
             for (Entity entity : world.getEntities()) {
@@ -106,6 +112,7 @@ public class SlotMachine extends ConfigManager {
         return null;
     }
 
+    //Convert int to ItemStack
     public ItemStack getItemStack(int value) {
         if (value == 0) {
             ItemStack is = new ItemStack(Material.DIAMOND_BLOCK, 1);

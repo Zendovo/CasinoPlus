@@ -17,6 +17,7 @@ public class SlotRow extends ConfigManager {
     private int b;
     private int c;
 
+    //Constructor
     public SlotRow(Core instance, String key, int row, int a, int b, int c) {
         super(instance, "slotsdata.yml");
         this.key = key;
@@ -28,11 +29,17 @@ public class SlotRow extends ConfigManager {
     }
 
     public Location getLoc(int abc) {
+
+        //World
         World world = Bukkit.getServer().getWorld(config.getString("slots." + key + ".world"));
+        //Co-ordinates
         Double x = config.getDouble("slots." + key + ".world.rows." + row + "." + abc + ".x");
         Double y = config.getDouble("slots." + key + ".world.rows." + row + "." + abc + ".y");
         Double z = config.getDouble("slots." + key + ".world.rows." + row + "." + abc + ".z");
+
+        //Return the location
         Location loc = new Location(world, x, y, z);
+
         return loc;
     }
 

@@ -35,7 +35,7 @@ public class EntityClick extends ConfigManager implements Listener {
 
             if(slots) {
                 String id = slotsData.getKey(uuid);
-//				slotMachine.start(id);
+				slotMachine.start(id, p);
             }
         }
 
