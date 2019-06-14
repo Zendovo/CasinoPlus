@@ -37,4 +37,8 @@ public class SlotsData extends ConfigManager{
         return res;
     }
 
+    public void set(String section, String value) {
+        config.set(section, value);
+    }
+
 }

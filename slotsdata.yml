@@ -8,6 +8,9 @@ slots:
       min: 10000
     display:
       uuid:
+        0:
+        1:
+        2:
       x: 243
       y: 69
       z: 437

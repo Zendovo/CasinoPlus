@@ -1,3 +1,12 @@
 main: me.z3ndovo.CasinoPlus.Core
 version: 1.0
 name: CasinoPlus
+description: This plugin does so much stuff it can't be contained!
+author: z3ndovo
+api-version: 1.13
+commands:
+  createslots:
+    usage: /createslots
+    description: Run commands
+  test:
+    usage: /test
