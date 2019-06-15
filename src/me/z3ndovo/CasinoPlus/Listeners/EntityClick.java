@@ -27,25 +27,31 @@ public class EntityClick implements Listener {
 
         if (entity instanceof ArmorStand) {
             UUID uuid = entity.getUniqueId();
+            String uuidS = getKey(uuid);
 
-            boolean slots = compareUUID(uuid);
+            boolean slots = compareUUID(uuid, player);
+            player.sendMessage("cfg: " + slotsData.getString("slots." + "Babnik" + ".start.uuid"));
+            player.sendMessage("clc: " + uuid.toString());
+            player.sendMessage(Boolean.toString(slots));
 
             if(slots) {
-                String uuidS = getKey(uuid);
 				slotMachine.start(uuidS, player);
             }
         }
 
     }
 
-    public boolean compareUUID(UUID uuid) {
+    public boolean compareUUID(UUID uuid, Player player) {
         for (String key : slotsData.getConfigurationSection("slots").getKeys(false)) {
-            if (uuid.toString() == slotsData.getString("slots." + key + ".start.uuid")) {
+            if (uuid.equals(UUID.fromString(slotsData.getString("slots." + key + ".start.uuid")))) {
+                player.sendMessage("Ok");
                 return true;
             } else {
-                return false;
+                player.sendMessage("Hmm");
+                continue;
             }
         }
+        player.sendMessage("No");
         return false;
     }
 

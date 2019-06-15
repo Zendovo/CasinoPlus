@@ -4,6 +4,10 @@ import org.bukkit.entity.Player;
 
 public class Rewards {
 
+    public Rewards() {
+
+    }
+
     public void giveReward(int wager, int a, int b, int c,Player p) {
 
         if (a == b && b == c) {

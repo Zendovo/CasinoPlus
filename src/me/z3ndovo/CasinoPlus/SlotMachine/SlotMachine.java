@@ -1,7 +1,6 @@
 package me.z3ndovo.CasinoPlus.SlotMachine;
 
 import me.z3ndovo.CasinoPlus.Core;
-import me.z3ndovo.CasinoPlus.Files.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -34,6 +33,7 @@ public class SlotMachine {
     }
 
     public void start(String key, Player player) {
+        this.rewards = new Rewards();
         this.slotsData = plugin.cfgM.getSlotsData();
 
         //Creating Row objects
@@ -41,20 +41,7 @@ public class SlotMachine {
         SlotRow row1 = new SlotRow(plugin, key, 1, randomGen.nextInt(n), randomGen.nextInt(n), randomGen.nextInt(n));
         SlotRow row2 = new SlotRow(plugin, key, 2, randomGen.nextInt(n), randomGen.nextInt(n), randomGen.nextInt(n));
 
-        for(int i = 0; i < n; i++) {
-
-            //Switching Values
-            row2.setValue("a", row1.getValue("a"));
-            row2.setValue("b", row1.getValue("b"));
-            row2.setValue("c", row1.getValue("c"));
-
-            row1.setValue("a", row0.getValue("a"));
-            row1.setValue("b", row0.getValue("b"));
-            row1.setValue("c", row0.getValue("c"));
-
-            row0.setValue("a", randomGen.nextInt(n));
-            row0.setValue("b", randomGen.nextInt(n));
-            row0.setValue("c", randomGen.nextInt(n));
+        for(int i = 0; i < 10; i++) {
 
             final int Fi = i;
 
@@ -62,6 +49,19 @@ public class SlotMachine {
 
                 @Override
                 public void run() {
+
+                    //Switching Values
+                    row2.setValue("a", row1.getValue("a"));
+                    row2.setValue("b", row1.getValue("b"));
+                    row2.setValue("c", row1.getValue("c"));
+
+                    row1.setValue("a", row0.getValue("a"));
+                    row1.setValue("b", row0.getValue("b"));
+                    row1.setValue("c", row0.getValue("c"));
+
+                    row0.setValue("a", randomGen.nextInt(n));
+                    row0.setValue("b", randomGen.nextInt(n));
+                    row0.setValue("c", randomGen.nextInt(n));
 
                     //Switching Blocks
                     for(String x : abc) {
