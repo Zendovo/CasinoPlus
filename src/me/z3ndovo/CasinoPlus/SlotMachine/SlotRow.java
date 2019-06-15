@@ -2,14 +2,15 @@ package me.z3ndovo.CasinoPlus.SlotMachine;
 
 import me.z3ndovo.CasinoPlus.Core;
 import me.z3ndovo.CasinoPlus.Files.ConfigManager;
-import me.z3ndovo.CasinoPlus.Files.SlotsData;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public class SlotRow extends ConfigManager {
 
     public Core plugin = Core.getPlugin(Core.class);
+    private FileConfiguration slotsData;
 
     private String key;
     private int row;
@@ -19,7 +20,6 @@ public class SlotRow extends ConfigManager {
 
     //Constructor
     public SlotRow(Core instance, String key, int row, int a, int b, int c) {
-        super(instance, "slotsdata.yml");
         this.key = key;
         this.row = row;
 
@@ -29,13 +29,14 @@ public class SlotRow extends ConfigManager {
     }
 
     public Location getLoc(int abc) {
+        this.slotsData = plugin.cfgM.getSlotsData();
 
         //World
-        World world = Bukkit.getServer().getWorld(config.getString("slots." + key + ".world"));
+        World world = Bukkit.getServer().getWorld(slotsData.getString("slots." + key + ".world"));
         //Co-ordinates
-        Double x = config.getDouble("slots." + key + ".world.rows." + row + "." + abc + ".x");
-        Double y = config.getDouble("slots." + key + ".world.rows." + row + "." + abc + ".y");
-        Double z = config.getDouble("slots." + key + ".world.rows." + row + "." + abc + ".z");
+        Double x = slotsData.getDouble("slots." + key + ".world.rows." + row + "." + abc + ".x");
+        Double y = slotsData.getDouble("slots." + key + ".world.rows." + row + "." + abc + ".y");
+        Double z = slotsData.getDouble("slots." + key + ".world.rows." + row + "." + abc + ".z");
 
         //Return the location
         Location loc = new Location(world, x, y, z);

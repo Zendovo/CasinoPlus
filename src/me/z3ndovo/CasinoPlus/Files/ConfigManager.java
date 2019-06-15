@@ -1,39 +1,71 @@
 package me.z3ndovo.CasinoPlus.Files;
 
-import java.io.File;
-import java.io.IOException;
-
+import me.z3ndovo.CasinoPlus.Core;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import me.z3ndovo.CasinoPlus.Core;
+import java.io.File;
+import java.io.IOException;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class ConfigManager {
 
-    protected Core plugin = Core.getPlugin(Core.class);
-    private File file;
-    protected FileConfiguration config;
+    private Core plugin = Core.getPlugin(Core.class);
 
-    public ConfigManager(Core plugin, String fileName) {
-        this.plugin = plugin;
-        this.file = new File(plugin.getDataFolder(), fileName);
+    // Files & File Configs Here
+    public FileConfiguration slotsdatacfg;
+    public File slotsfile;
+    // --------------------------
 
-        if(!file.exists()) {
+    public void setup() {
+        if (!plugin.getDataFolder().exists()) {
+            plugin.getDataFolder().mkdir();
+        }
+
+        //Create file object
+        slotsfile = new File(plugin.getDataFolder(), "slotsdata.yml");
+
+        //Check if exists
+        if (!slotsfile.exists()) {
+            //Create file
             try {
-                file.createNewFile();
-            } catch (IOException err) {
-                err.printStackTrace();
+                slotsfile.createNewFile();
+                Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "The slotsdata.yml file has been created");
+            } catch (IOException e) {
+                Bukkit.getServer().getConsoleSender()
+                        .sendMessage(ChatColor.RED + "Could not create the slotsdata.yml file");
             }
         }
-        this.config = YamlConfiguration.loadConfiguration(file);
+
+        //Load file
+        slotsdatacfg = YamlConfiguration.loadConfiguration(slotsfile);
+        slotsdatacfg.set("slots.settest.world", "fay");
+        String s = slotsdatacfg.getString("slots.test.world");
+        Bukkit.getServer().getConsoleSender().sendMessage(s);
     }
 
-    public void save(){
+    //Get the config
+    public FileConfiguration getSlotsData() {
+        return slotsdatacfg;
+    }
+
+    //Save the config
+    public void saveSlotsData() {
         try {
-            config.save(file);
-        } catch (IOException err) {
-            err.printStackTrace();
+            slotsdatacfg.save(slotsfile);
+            Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.AQUA + "The slotsdata.yml file has been saved");
+
+        } catch (IOException e) {
+            Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "Could not save the slotsdata.yml file");
         }
     }
 
+    //Reload the config
+    public void reloadSlotsData() {
+        slotsdatacfg = YamlConfiguration.loadConfiguration(slotsfile);
+        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "The slotsdata.yml file has been reload");
+
+    }
 }

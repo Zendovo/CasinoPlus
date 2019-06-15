@@ -1,20 +1,23 @@
 package me.z3ndovo.CasinoPlus.CreateSlotsPrompt;
 
 import me.z3ndovo.CasinoPlus.Core;
-import me.z3ndovo.CasinoPlus.Files.SlotsData;
+import me.z3ndovo.CasinoPlus.SlotMachine.SlotMachine;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.StringPrompt;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class getRow2 extends StringPrompt {
     Core plugin = Core.getPlugin(Core.class);
-    SlotsData slotsData;
+    private FileConfiguration slotsData;
+    SlotMachine slotMachine;
 
     @Override
     public String getPromptText(ConversationContext con) {
@@ -28,11 +31,13 @@ public class getRow2 extends StringPrompt {
 
     @Override
     public Prompt acceptInput(ConversationContext con, String value) {
-        this.slotsData = new SlotsData(plugin);
+        this.slotsData = plugin.cfgM.getSlotsData();
+        this.slotMachine = new SlotMachine(plugin);
+
         String name = con.getSessionData("name").toString();
         String[] args = value.split(" ");
         String world = con.getSessionData("world").toString();
-        //Player player = (Player) con.getForWhom();
+        Player player = (Player) con.getForWhom();
 
         try {
             for(int i = 0; i < 8; i++){
@@ -63,7 +68,9 @@ public class getRow2 extends StringPrompt {
             slotsData.set("slots." + name + ".rows.2." + getabc(i) + ".y", args[3 + i]);
             slotsData.set("slots." + name + ".rows.2." + getabc(i) + ".z", args[6 + i]);
         }
-        slotsData.save();
+        plugin.cfgM.saveSlotsData();
+        slotMachine.start(con.getSessionData("name").toString(), player);
+
         return END_OF_CONVERSATION;
     }
 

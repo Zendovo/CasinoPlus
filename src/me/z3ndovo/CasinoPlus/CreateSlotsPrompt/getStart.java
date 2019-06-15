@@ -1,11 +1,12 @@
 package me.z3ndovo.CasinoPlus.CreateSlotsPrompt;
 
 import me.z3ndovo.CasinoPlus.Core;
-import me.z3ndovo.CasinoPlus.Files.SlotsData;
+import me.z3ndovo.CasinoPlus.Files.ConfigManager;
 import me.z3ndovo.CasinoPlus.GetSkull;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.StringPrompt;
@@ -17,7 +18,8 @@ import java.util.UUID;
 public class getStart extends StringPrompt {
     Core plugin = Core.getPlugin(Core.class);
     private GetSkull getSkull;
-    private SlotsData slotsData;
+    private FileConfiguration slotsData;
+
 
     @Override
     public String getPromptText(ConversationContext con) {
@@ -30,8 +32,9 @@ public class getStart extends StringPrompt {
 
     @Override
     public Prompt acceptInput(ConversationContext con, String value) {
-        this.slotsData = new SlotsData(plugin);
+        this.slotsData = plugin.cfgM.getSlotsData();
         this.getSkull = new GetSkull(plugin);
+
         String name = con.getSessionData("name").toString();
         String[] args = value.split(" ");
         Player player = (Player) con.getForWhom();
@@ -62,6 +65,7 @@ public class getStart extends StringPrompt {
         slotsData.set("slots." + name + ".start.x", args[0]);
         slotsData.set("slots." + name + ".start.y", args[1]);
         slotsData.set("slots." + name + ".start.z", args[2]);
+        plugin.cfgM.saveSlotsData();
         return new getRow0();
     }
 }

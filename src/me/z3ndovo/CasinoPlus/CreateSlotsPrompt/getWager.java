@@ -1,17 +1,15 @@
 package me.z3ndovo.CasinoPlus.CreateSlotsPrompt;
 
 import me.z3ndovo.CasinoPlus.Core;
-import me.z3ndovo.CasinoPlus.Files.SlotsData;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import me.z3ndovo.CasinoPlus.Files.ConfigManager;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.StringPrompt;
-import org.bukkit.entity.Zombie;
 
 public class getWager extends StringPrompt {
     Core plugin = Core.getPlugin(Core.class);
-    SlotsData slotsData;
+    private FileConfiguration slotsData;
 
     @Override
     public String getPromptText(ConversationContext con) {
@@ -24,7 +22,7 @@ public class getWager extends StringPrompt {
 
     @Override
     public Prompt acceptInput(ConversationContext con, String value) {
-        this.slotsData = new SlotsData(plugin);
+        this.slotsData = plugin.cfgM.getSlotsData();
         String name = con.getSessionData("name").toString();
         String[] args = value.split(" ");
 
@@ -42,6 +40,7 @@ public class getWager extends StringPrompt {
         slotsData.set("slots." + name + ".wager.step", args[1]);
         slotsData.set("slots." + name + ".wager.min", args[2]);
         slotsData.set("slots." + name + ".wager.current", Integer.toString(Integer.parseInt(args[0]) / 2));
+        plugin.cfgM.saveSlotsData();
         return new getDisplay();
     }
 }

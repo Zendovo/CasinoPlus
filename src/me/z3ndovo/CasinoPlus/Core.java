@@ -2,59 +2,61 @@ package me.z3ndovo.CasinoPlus;
 
 import me.z3ndovo.CasinoPlus.Commands.CreateSlots;
 import me.z3ndovo.CasinoPlus.Commands.Test;
-import me.z3ndovo.CasinoPlus.Files.SlotsData;
+import me.z3ndovo.CasinoPlus.Files.ConfigManager;
 import me.z3ndovo.CasinoPlus.Listeners.EntityClick;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-
 public class Core extends JavaPlugin {
 
-    private static Core instance;
-    private SlotsData slotsData;
+    public ConfigManager cfgM;
 
     public void onEnable() {
+
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
         }
 
-        this.getCommand("createslots").setExecutor(new CreateSlots());
-        this.getCommand("test").setExecutor(new Test());
+        //Load config files
+        loadConfigManager();
+        loadConfig();
 
-        FileConfiguration config = getConfig();
+        //Plugin enable message
         getLogger().info("-------------------------------------------");
         getLogger().info("CasinoPlus has been enabled.");
         getLogger().info("-------------------------------------------");
 
-        setInstance(this);
-
+        //Register Events
         PluginManager pm = Bukkit.getServer().getPluginManager();
-        pm.registerEvents(new EntityClick(this), this);
+        pm.registerEvents(new EntityClick(), this);
 
-        if(!(new File(getDataFolder(), "config.yml")).exists()) {
-            saveDefaultConfig();
-        }
+        //Register Commands
+        this.getCommand("createslots").setExecutor(new CreateSlots());
+        this.getCommand("test").setExecutor(new Test());
 
-        this.slotsData = new SlotsData(this);
     }
 
     public void onDisable() {
+        //Plugin disable message
         getLogger().info("-------------------------------------------");
         getLogger().info("CasinoPlus has been disabled.");
         getLogger().info("-------------------------------------------");
-
-        slotsData.save();
     }
 
-    public static Core getInstance() {
-        return instance;
+    //Load the custom configs
+    public void loadConfigManager(){
+        cfgM = new ConfigManager();
+        cfgM.setup();
+        cfgM.saveSlotsData();
+        cfgM.reloadSlotsData();
+
     }
 
-    private static void setInstance(Core instance) {
-        Core.instance = instance;
+    //Load config.yml
+    public void loadConfig() {
+        getConfig().options().copyDefaults(true);
+        saveConfig();
     }
 
 }

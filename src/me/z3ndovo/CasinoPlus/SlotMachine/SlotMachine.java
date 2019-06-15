@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -17,21 +18,23 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-public class SlotMachine extends ConfigManager {
+public class SlotMachine {
 
     private int n = 4;
     private Random randomGen = new Random();
     private final List<String> abc = Arrays.asList("a", "b", "c");
 
-    public Core plugin = Core.getPlugin(Core.class);
+    public Core plugin;
+    private FileConfiguration slotsData;
     private Rewards rewards;
 
     //Constructor for ConfigManager
-    public SlotMachine(Core core) {
-        super(core, "slotsdata.yml");
+    public SlotMachine(Core plugin) {
+        this.plugin = plugin;
     }
 
     public void start(String key, Player player) {
+        this.slotsData = plugin.cfgM.getSlotsData();
 
         //Creating Row objects
         SlotRow row0 = new SlotRow(plugin, key, 0, randomGen.nextInt(n), randomGen.nextInt(n), randomGen.nextInt(n));
@@ -62,24 +65,24 @@ public class SlotMachine extends ConfigManager {
 
                     //Switching Blocks
                     for(String x : abc) {
-                        String s0 = config.getString("slots." + key + ".rows.0." + x + ".uuid");
+                        String s0 = slotsData.getString("slots." + key + ".rows.0." + x + ".uuid");
                         UUID u0 = UUID.fromString(s0);
                         ArmorStand as0 = getAsByUniqueId(u0);
                         as0.setHelmet(getItemStack(row0.getValue(x)));
 
-                        String s1 = config.getString("slots." + key + ".rows.1." + x + ".uuid");
+                        String s1 = slotsData.getString("slots." + key + ".rows.1." + x + ".uuid");
                         UUID u1 = UUID.fromString(s1);
                         ArmorStand as1 = getAsByUniqueId(u1);
                         as1.setHelmet(getItemStack(row1.getValue(x)));
 
-                        String s2 = config.getString("slots." + key + ".rows.2." + x + ".uuid");
+                        String s2 = slotsData.getString("slots." + key + ".rows.2." + x + ".uuid");
                         UUID u2 = UUID.fromString(s2);
                         ArmorStand as2 = getAsByUniqueId(u2);
                         as2.setHelmet(getItemStack(row2.getValue(x)));
                     }
 
                     //Get wager
-                    int wager = config.getInt("slots." + key + ".wager.current");
+                    int wager = Integer.parseInt(slotsData.getString("slots." + key + ".wager.current"));
 
                     //Play Sound and Give Reward
                     if(Fi == 9) {

@@ -1,9 +1,10 @@
 package me.z3ndovo.CasinoPlus.CreateSlotsPrompt;
 
 import me.z3ndovo.CasinoPlus.Core;
-import me.z3ndovo.CasinoPlus.Files.SlotsData;
+import me.z3ndovo.CasinoPlus.Files.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.StringPrompt;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class getRow1 extends StringPrompt {
     Core plugin = Core.getPlugin(Core.class);
-    SlotsData slotsData;
+    private FileConfiguration slotsData;
 
     @Override
     public String getPromptText(ConversationContext con) {
@@ -28,7 +29,7 @@ public class getRow1 extends StringPrompt {
 
     @Override
     public Prompt acceptInput(ConversationContext con, String value) {
-        this.slotsData = new SlotsData(plugin);
+        this.slotsData = plugin.cfgM.getSlotsData();
         String name = con.getSessionData("name").toString();
         String[] args = value.split(" ");
         String world = con.getSessionData("world").toString();
@@ -63,6 +64,7 @@ public class getRow1 extends StringPrompt {
             slotsData.set("slots." + name + ".rows.1." + getabc(i) + ".y", args[3 + i]);
             slotsData.set("slots." + name + ".rows.1." + getabc(i) + ".z", args[6 + i]);
         }
+        plugin.cfgM.saveSlotsData();
         return new getRow2();
     }
 
