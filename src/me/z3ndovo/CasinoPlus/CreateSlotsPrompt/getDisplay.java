@@ -9,6 +9,7 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.StringPrompt;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class getDisplay extends StringPrompt {
         String name = con.getSessionData("name").toString();
         String[] args = value.split(" ");
         String world = con.getSessionData("world").toString();
-        //Player player = (Player) con.getForWhom();
+        Player player = (Player) con.getForWhom();
 
         try {
             Double.parseDouble(args[0]);
