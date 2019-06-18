@@ -1,8 +1,7 @@
 package me.z3ndovo.CasinoPlus.CreateSlotsPrompt;
 
 import me.z3ndovo.CasinoPlus.Core;
-import me.z3ndovo.CasinoPlus.Files.ConfigManager;
-import me.z3ndovo.CasinoPlus.GetSkull;
+import me.z3ndovo.CasinoPlus.Utils.GetSkull;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

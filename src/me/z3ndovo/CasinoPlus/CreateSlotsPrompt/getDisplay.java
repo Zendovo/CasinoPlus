@@ -48,17 +48,31 @@ public class getDisplay extends StringPrompt {
         Location loc = new Location(Bukkit.getWorld(world), (Double.parseDouble(args[0])) + (0.5), (Double.parseDouble(args[1])) - (1.15), (Double.parseDouble(args[2])) + (0.5));
         List<ArmorStand> asArray = new ArrayList<ArmorStand>();
         for (int i = -1; i < 2; i++) {
-            ArmorStand as = loc.getWorld().spawn(loc.add(0, i,0), ArmorStand.class);
-            as.setVisible(true);
-            as.setInvulnerable(false);
-            as.setGravity(false);
-            as.setCustomName(getEmblem(i, name, slotsData));
-            as.setCustomNameVisible(true);
+            if (i < 0) {
+                ArmorStand as = loc.getWorld().spawn(loc.subtract(0, 1,0), ArmorStand.class);
+                as.setVisible(true);
+                as.setInvulnerable(false);
+                as.setGravity(false);
+                as.setCustomName(getEmblem(i, name, slotsData));
+                as.setCustomNameVisible(true);
 
-            String f = Integer.toString(i + 1);
-            slotsData.set("slots." + name + ".display.uuid." + f, as.getUniqueId().toString());
+                String f = Integer.toString(i + 1);
+                slotsData.set("slots." + name + ".display.uuid." + f, as.getUniqueId().toString());
 
-            asArray.add(as);
+                asArray.add(as);
+            } else {
+                ArmorStand as = loc.getWorld().spawn(loc.add(0, i,0), ArmorStand.class);
+                as.setVisible(true);
+                as.setInvulnerable(false);
+                as.setGravity(false);
+                as.setCustomName(getEmblem(i, name, slotsData));
+                as.setCustomNameVisible(true);
+
+                String f = Integer.toString(i + 1);
+                slotsData.set("slots." + name + ".display.uuid." + f, as.getUniqueId().toString());
+
+                asArray.add(as);
+            }
         }
 
         slotsData.set("slots." + name + ".display.x", args[0]);

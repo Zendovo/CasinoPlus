@@ -1,8 +1,9 @@
-package me.z3ndovo.CasinoPlus;
+package me.z3ndovo.CasinoPlus.Utils;
 
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import me.z3ndovo.CasinoPlus.Core;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

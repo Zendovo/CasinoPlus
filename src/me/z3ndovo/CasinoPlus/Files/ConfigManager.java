@@ -41,9 +41,6 @@ public class ConfigManager {
 
         //Load file
         slotsdatacfg = YamlConfiguration.loadConfiguration(slotsfile);
-        slotsdatacfg.set("slots.settest.world", "fay");
-        String s = slotsdatacfg.getString("slots.test.world");
-        Bukkit.getServer().getConsoleSender().sendMessage(s);
     }
 
     //Get the config

@@ -30,12 +30,10 @@ public class EntityClick implements Listener {
             String uuidS = getKey(uuid);
 
             boolean slots = compareUUID(uuid, player);
-            player.sendMessage("cfg: " + slotsData.getString("slots." + "Babnik" + ".start.uuid"));
-            player.sendMessage("clc: " + uuid.toString());
-            player.sendMessage(Boolean.toString(slots));
 
             if(slots) {
-				slotMachine.start(uuidS, player);
+                player.sendMessage(getKey(uuid));
+				slotMachine.start(getKey(uuid), player);
             }
         }
 
@@ -43,11 +41,11 @@ public class EntityClick implements Listener {
 
     public boolean compareUUID(UUID uuid, Player player) {
         for (String key : slotsData.getConfigurationSection("slots").getKeys(false)) {
+            player.sendMessage(key);
+            player.sendMessage(slotsData.getString("slots." + key + ".start.uuid"));
             if (uuid.equals(UUID.fromString(slotsData.getString("slots." + key + ".start.uuid")))) {
-                player.sendMessage("Ok");
                 return true;
             } else {
-                player.sendMessage("Hmm");
                 continue;
             }
         }
@@ -57,10 +55,10 @@ public class EntityClick implements Listener {
 
     public String getKey(UUID uuid) {
         for (String key : slotsData.getConfigurationSection("slots").getKeys(false)) {
-            if (uuid.toString() == slotsData.getString("slots." + key + ".start.uuid")) {
+            if (uuid.toString().equals(slotsData.getString("slots." + key + ".start.uuid"))) {
                 return key;
             } else {
-                return key;
+                continue;
             }
         }
         return null;
