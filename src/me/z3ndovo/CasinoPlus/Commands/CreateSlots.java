@@ -30,7 +30,6 @@ public class CreateSlots implements CommandExecutor {
 
         Player player = (Player) sender;
         String world = player.getWorld().getName();
-        player.sendMessage("works");
 
         ConversationFactory cf = new ConversationFactory(plugin);
         Conversation conv = cf.withFirstPrompt(new getName(world)).withEscapeSequence("cancel").withLocalEcho(false).buildConversation(player);

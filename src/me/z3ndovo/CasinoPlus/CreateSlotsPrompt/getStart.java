@@ -38,7 +38,7 @@ public class getStart extends StringPrompt {
         String[] args = value.split(" ");
         Player player = (Player) con.getForWhom();
         String world = con.getSessionData("world").toString();
-        String url = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjQ1YzlhY2VhOGRhNzFiNGYyNTJjZDRkZWI1OTQzZjQ5ZTdkYmMwNzY0Mjc0YjI1YTZhNmY1ODc1YmFlYTMifX19";
+        String url = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjExNmI2OGQ2MmEzNWMwY2UwYzhjNTU3YWM2MzRmNzY3NzA0OGM2ZmVkMjk2YTBkZDFlZDFhOWM0NzZiMjZlNiJ9fX0=";
 
         try {
             Double.parseDouble(args[0]);
@@ -55,15 +55,15 @@ public class getStart extends StringPrompt {
         slotsData.set("slots." + name + ".start.uuid", startAs.getUniqueId().toString());
 
         startAs.setVisible(false);
-        startAs.setInvulnerable(false);
+        startAs.setInvulnerable(true);
         startAs.setGravity(false);
         startAs.setCustomName(ChatColor.GREEN + "Start");
         startAs.setCustomNameVisible(true);
         startAs.setHelmet(getSkull.getSkullStack(url, "Start", 1, UUID.randomUUID().toString()));
 
-        slotsData.set("slots." + name + ".start.x", args[0]);
-        slotsData.set("slots." + name + ".start.y", args[1]);
-        slotsData.set("slots." + name + ".start.z", args[2]);
+        slotsData.set("slots." + name + ".start.x", Integer.parseInt(args[0]));
+        slotsData.set("slots." + name + ".start.y", Integer.parseInt(args[1]));
+        slotsData.set("slots." + name + ".start.z", Integer.parseInt(args[2]));
         plugin.cfgM.saveSlotsData();
         return new getRow0();
     }

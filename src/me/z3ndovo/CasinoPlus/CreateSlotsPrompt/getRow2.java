@@ -58,15 +58,15 @@ public class getRow2 extends StringPrompt {
             ArmorStand as = (ArmorStand) Bukkit.getServer().getWorld(world).spawn(loc, ArmorStand.class);
             as.setVisible(false);
             as.setGravity(false);
-            as.setInvulnerable(false);
+            as.setInvulnerable(true);
             row2As.add(as);
             slotsData.set("slots." + name + ".rows.2." + getabc(i) + ".uuid", as.getUniqueId().toString());
         }
 
         for(int i = 0; i < 3; i++) {
-            slotsData.set("slots." + name + ".rows.2." + getabc(i) + ".x", args[0 + i]);
-            slotsData.set("slots." + name + ".rows.2." + getabc(i) + ".y", args[3 + i]);
-            slotsData.set("slots." + name + ".rows.2." + getabc(i) + ".z", args[6 + i]);
+            slotsData.set("slots." + name + ".rows.2." + getabc(i) + ".x", Integer.parseInt(args[0 + i]));
+            slotsData.set("slots." + name + ".rows.2." + getabc(i) + ".y", Integer.parseInt(args[3 + i]));
+            slotsData.set("slots." + name + ".rows.2." + getabc(i) + ".z", Integer.parseInt(args[6 + i]));
         }
         plugin.cfgM.saveSlotsData();
         slotMachine.start(con.getSessionData("name").toString(), player);

@@ -2,6 +2,8 @@ package me.z3ndovo.CasinoPlus.Listeners;
 
 import me.z3ndovo.CasinoPlus.Core;
 import me.z3ndovo.CasinoPlus.SlotMachine.SlotMachine;
+import me.z3ndovo.CasinoPlus.Utils.AdjustWager;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -14,6 +16,7 @@ import java.util.UUID;
 
 public class EntityClick implements Listener {
     SlotMachine slotMachine;
+    AdjustWager adjustWager;
     Core plugin = Core.getPlugin(Core.class);
     private FileConfiguration slotsData = plugin.cfgM.getSlotsData();
 
@@ -21,41 +24,49 @@ public class EntityClick implements Listener {
     @EventHandler
     public void onEntityRightClick(PlayerInteractAtEntityEvent e) {
         this.slotMachine = new SlotMachine(plugin);
+        this.adjustWager = new AdjustWager(plugin);
 
         Entity entity = e.getRightClicked();
         Player player = e.getPlayer();
 
         if (entity instanceof ArmorStand) {
             UUID uuid = entity.getUniqueId();
-            String uuidS = getKey(uuid);
 
-            boolean slots = compareUUID(uuid, player);
+            boolean slotsStart = compareUUID(uuid, player, "start.uuid");
+            boolean slotsInc = compareUUID(uuid, player, "display.uuid.2");
+            boolean slotsDec = compareUUID(uuid, player, "display.uuid.0");
 
-            if(slots) {
-                player.sendMessage(getKey(uuid));
-				slotMachine.start(getKey(uuid), player);
+            if(slotsStart) {
+				slotMachine.start(getKey(uuid, "start.uuid"), player);
+				e.setCancelled(true);
+
+            } else if (slotsInc) {
+                adjustWager.increaseWager(getKey(uuid, "display.uuid.2"), player);
+                e.setCancelled(true);
+
+            } else if (slotsDec) {
+                adjustWager.decreaseWager(getKey(uuid, "display.uuid.0"), player);
+                e.setCancelled(true);
+
             }
         }
 
     }
 
-    public boolean compareUUID(UUID uuid, Player player) {
+    public boolean compareUUID(UUID uuid, Player player, String string) {
         for (String key : slotsData.getConfigurationSection("slots").getKeys(false)) {
-            player.sendMessage(key);
-            player.sendMessage(slotsData.getString("slots." + key + ".start.uuid"));
-            if (uuid.equals(UUID.fromString(slotsData.getString("slots." + key + ".start.uuid")))) {
+            if (uuid.equals(UUID.fromString(slotsData.getString("slots." + key + "." + string)))) {
                 return true;
             } else {
                 continue;
             }
         }
-        player.sendMessage("No");
         return false;
     }
 
-    public String getKey(UUID uuid) {
+    public String getKey(UUID uuid, String string) {
         for (String key : slotsData.getConfigurationSection("slots").getKeys(false)) {
-            if (uuid.toString().equals(slotsData.getString("slots." + key + ".start.uuid"))) {
+            if (uuid.equals(UUID.fromString(slotsData.getString("slots." + key + "." + string)))) {
                 return key;
             } else {
                 continue;

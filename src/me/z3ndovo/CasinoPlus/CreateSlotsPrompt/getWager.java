@@ -36,10 +36,10 @@ public class getWager extends StringPrompt {
             return new getDisplay();
         }
 
-        slotsData.set("slots." + name + ".wager.max", args[0]);
-        slotsData.set("slots." + name + ".wager.step", args[1]);
-        slotsData.set("slots." + name + ".wager.min", args[2]);
-        slotsData.set("slots." + name + ".wager.current", Integer.toString(Integer.parseInt(args[0]) / 2));
+        slotsData.set("slots." + name + ".wager.max", Integer.parseInt(args[0]));
+        slotsData.set("slots." + name + ".wager.step", Integer.parseInt(args[1]));
+        slotsData.set("slots." + name + ".wager.min", Integer.parseInt(args[2]));
+        slotsData.set("slots." + name + ".wager.current", (Integer.parseInt(args[0]) / 2));
         plugin.cfgM.saveSlotsData();
         return new getDisplay();
     }

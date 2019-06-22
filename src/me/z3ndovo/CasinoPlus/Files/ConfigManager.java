@@ -52,7 +52,7 @@ public class ConfigManager {
     public void saveSlotsData() {
         try {
             slotsdatacfg.save(slotsfile);
-            Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.AQUA + "The slotsdata.yml file has been saved");
+            //Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.AQUA + "The slotsdata.yml file has been saved");
 
         } catch (IOException e) {
             Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "Could not save the slotsdata.yml file");
@@ -62,7 +62,7 @@ public class ConfigManager {
     //Reload the config
     public void reloadSlotsData() {
         slotsdatacfg = YamlConfiguration.loadConfiguration(slotsfile);
-        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "The slotsdata.yml file has been reload");
+        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "The slotsdata.yml file has been reloaded");
 
     }
 }
