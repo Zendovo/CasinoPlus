@@ -35,7 +35,7 @@ public class AdjustWager {
             slotsData.set("slots." + key + ".wager.current", adjusted);
             plugin.cfgM.saveSlotsData();
             display.setCustomName(ChatColor.YELLOW + "" + ChatColor.BOLD + adjusted);
-            player.sendMessage(ChatColor.GREEN + "+" + ChatColor.YELLOW + adjusted);
+            player.sendMessage(ChatColor.GREEN + "+ " + ChatColor.YELLOW + adjusted);
 
         } else {
             player.sendMessage("You have reached the maximum wager!");
@@ -59,7 +59,7 @@ public class AdjustWager {
             slotsData.set("slots." + key + ".wager.current", adjusted);
             plugin.cfgM.saveSlotsData();
             display.setCustomName(ChatColor.YELLOW + "" + ChatColor.BOLD + adjusted);
-            player.sendMessage(ChatColor.RED + "-" + ChatColor.YELLOW + adjusted);
+            player.sendMessage(ChatColor.RED + "- " + ChatColor.YELLOW + adjusted);
 
         } else {
             player.sendMessage("You have reached the minimum wager!");
