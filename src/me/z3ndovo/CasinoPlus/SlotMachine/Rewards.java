@@ -8,22 +8,22 @@ public class Rewards {
 
     }
 
-    public void giveReward(int wager, int a, int b, int c,Player p) {
+    public int giveReward(int wager, int a, int b, int c,Player p) {
 
         if (a == b && b == c) {
             Double d = multiplier(a);
-            p.sendMessage("You won " + (wager * d));
+            return (int) ((wager * d));
         } else if (a == b && b != c) {
             Double d = multiplier(a);
-            p.sendMessage("You won " + wager * (1 + (d/(5 + a))));
+            return (int) (wager * (1 + (d/(5 + a))));
         } else if (a != b && b == c) {
             Double d = multiplier(c);
-            p.sendMessage("You won " + wager * (1 + (d/(5 + c))));
+            return (int) (wager * (1 + (d/(5 + c))));
         } else if (a == c && b != c) {
             Double d = multiplier(a);
-            p.sendMessage("You won " + wager * (1 + (d/(5 + a))));
+            return (int) (wager * (1 + (d/(5 + a))));
         } else {
-            p.sendMessage("You lost.");
+            return 0;
         }
 
     }

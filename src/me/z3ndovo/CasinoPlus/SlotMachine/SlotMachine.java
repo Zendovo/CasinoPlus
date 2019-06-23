@@ -1,10 +1,9 @@
 package me.z3ndovo.CasinoPlus.SlotMachine;
 
 import me.z3ndovo.CasinoPlus.Core;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -36,65 +35,98 @@ public class SlotMachine {
         this.rewards = new Rewards();
         this.slotsData = plugin.cfgM.getSlotsData();
 
-        //Creating Row objects
-        SlotRow row0 = new SlotRow(plugin, key, 0, randomGen.nextInt(n), randomGen.nextInt(n), randomGen.nextInt(n));
-        SlotRow row1 = new SlotRow(plugin, key, 1, randomGen.nextInt(n), randomGen.nextInt(n), randomGen.nextInt(n));
-        SlotRow row2 = new SlotRow(plugin, key, 2, randomGen.nextInt(n), randomGen.nextInt(n), randomGen.nextInt(n));
+        if (slotsData.getBoolean("slots." + key + ".in-use")) {
+            player.sendMessage("The slot machine is in use!");
 
-        for(int i = 0; i < 10; i++) {
+        } else {
 
-            final int Fi = i;
+            //Get wager
+            int wager = Integer.parseInt(slotsData.getString("slots." + key + ".wager.current"));
+            EconomyResponse econRes = plugin.econ.withdrawPlayer(player, wager);
 
-            new BukkitRunnable() {
+            //Check Transaction
+            if (!econRes.transactionSuccess()) {
 
-                @Override
-                public void run() {
+                player.sendMessage(ChatColor.RED + "You do not have the sufficient balance in your account!");
 
-                    //Switching Values
-                    row2.setValue("a", row1.getValue("a"));
-                    row2.setValue("b", row1.getValue("b"));
-                    row2.setValue("c", row1.getValue("c"));
+            } else {
 
-                    row1.setValue("a", row0.getValue("a"));
-                    row1.setValue("b", row0.getValue("b"));
-                    row1.setValue("c", row0.getValue("c"));
+                player.sendMessage(ChatColor.YELLOW + plugin.econ.format(wager) + ChatColor.WHITE + " was taken from your balance!");
 
-                    row0.setValue("a", randomGen.nextInt(n));
-                    row0.setValue("b", randomGen.nextInt(n));
-                    row0.setValue("c", randomGen.nextInt(n));
+                slotsData.set("slots." + key + ".in-use", true);
+                plugin.cfgM.saveSlotsData();
 
-                    //Switching Blocks
-                    for(String x : abc) {
-                        String s0 = slotsData.getString("slots." + key + ".rows.0." + x + ".uuid");
-                        UUID u0 = UUID.fromString(s0);
-                        ArmorStand as0 = getAsByUniqueId(u0);
-                        as0.setHelmet(getItemStack(row0.getValue(x)));
+                //Creating Row objects
+                SlotRow row0 = new SlotRow(plugin, key, 0, randomGen.nextInt(n), randomGen.nextInt(n), randomGen.nextInt(n));
+                SlotRow row1 = new SlotRow(plugin, key, 1, randomGen.nextInt(n), randomGen.nextInt(n), randomGen.nextInt(n));
+                SlotRow row2 = new SlotRow(plugin, key, 2, randomGen.nextInt(n), randomGen.nextInt(n), randomGen.nextInt(n));
 
-                        String s1 = slotsData.getString("slots." + key + ".rows.1." + x + ".uuid");
-                        UUID u1 = UUID.fromString(s1);
-                        ArmorStand as1 = getAsByUniqueId(u1);
-                        as1.setHelmet(getItemStack(row1.getValue(x)));
+                for(int i = 0; i < 10; i++) {
 
-                        String s2 = slotsData.getString("slots." + key + ".rows.2." + x + ".uuid");
-                        UUID u2 = UUID.fromString(s2);
-                        ArmorStand as2 = getAsByUniqueId(u2);
-                        as2.setHelmet(getItemStack(row2.getValue(x)));
-                    }
+                    final int Fi = i;
 
-                    //Get wager
-                    int wager = Integer.parseInt(slotsData.getString("slots." + key + ".wager.current"));
+                    new BukkitRunnable() {
 
-                    //Play Sound and Give Reward
-                    if(Fi == 9) {
-                        player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                        rewards.giveReward(wager, row1.getValue("a"), row1.getValue("b"), row1.getValue("c"), player);
-                    } else {
-                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
-                    }
+                        @Override
+                        public void run() {
+
+                            //Switching Values
+                            row2.setValue("a", row1.getValue("a"));
+                            row2.setValue("b", row1.getValue("b"));
+                            row2.setValue("c", row1.getValue("c"));
+
+                            row1.setValue("a", row0.getValue("a"));
+                            row1.setValue("b", row0.getValue("b"));
+                            row1.setValue("c", row0.getValue("c"));
+
+                            row0.setValue("a", randomGen.nextInt(n));
+                            row0.setValue("b", randomGen.nextInt(n));
+                            row0.setValue("c", randomGen.nextInt(n));
+
+                            //Switching Blocks
+                            for(String x : abc) {
+                                String s0 = slotsData.getString("slots." + key + ".rows.0." + x + ".uuid");
+                                UUID u0 = UUID.fromString(s0);
+                                ArmorStand as0 = getAsByUniqueId(u0);
+                                as0.setHelmet(getItemStack(row0.getValue(x)));
+
+                                String s1 = slotsData.getString("slots." + key + ".rows.1." + x + ".uuid");
+                                UUID u1 = UUID.fromString(s1);
+                                ArmorStand as1 = getAsByUniqueId(u1);
+                                as1.setHelmet(getItemStack(row1.getValue(x)));
+
+                                String s2 = slotsData.getString("slots." + key + ".rows.2." + x + ".uuid");
+                                UUID u2 = UUID.fromString(s2);
+                                ArmorStand as2 = getAsByUniqueId(u2);
+                                as2.setHelmet(getItemStack(row2.getValue(x)));
+                            }
+
+                            //Play Sound and Give Reward
+                            if(Fi == 9) {
+                                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+                                int reward = rewards.giveReward(wager, row1.getValue("a"), row1.getValue("b"), row1.getValue("c"), player);
+
+                                if(reward != 0) {
+                                    plugin.econ.depositPlayer(player, reward);
+                                    player.sendMessage("You won $" + plugin.econ.format(reward));
+                                } else {
+                                    player.sendMessage("You lost.");
+                                }
+
+                                slotsData.set("slots." + key + ".in-use", false);
+                                plugin.cfgM.saveSlotsData();
+
+                            } else {
+                                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
+                            }
+
+                        }
+
+                    }.runTaskLater(plugin, 20 + (int) (Math.pow(i, 2))); //Timer
 
                 }
 
-            }.runTaskLater(plugin, 20 + (int) (Math.pow(i, 2)));
+            }
 
         }
 

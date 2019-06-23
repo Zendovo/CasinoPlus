@@ -3,6 +3,7 @@ package me.z3ndovo.CasinoPlus.Utils;
 import me.z3ndovo.CasinoPlus.Core;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.ArmorStand;
@@ -34,8 +35,10 @@ public class AdjustWager {
         if (min <= adjusted && adjusted <= max) {
             slotsData.set("slots." + key + ".wager.current", adjusted);
             plugin.cfgM.saveSlotsData();
-            display.setCustomName(ChatColor.YELLOW + "" + ChatColor.BOLD + adjusted);
-            player.sendMessage(ChatColor.GREEN + "+ " + ChatColor.YELLOW + adjusted);
+            display.setCustomName(ChatColor.YELLOW + "" + ChatColor.BOLD + plugin.econ.format(adjusted));
+
+            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+            player.sendMessage(ChatColor.GREEN + "+ " + ChatColor.YELLOW + plugin.econ.format(adjusted));
 
         } else {
             player.sendMessage("You have reached the maximum wager!");
@@ -58,8 +61,10 @@ public class AdjustWager {
         if (min <= adjusted && adjusted <= max) {
             slotsData.set("slots." + key + ".wager.current", adjusted);
             plugin.cfgM.saveSlotsData();
-            display.setCustomName(ChatColor.YELLOW + "" + ChatColor.BOLD + adjusted);
-            player.sendMessage(ChatColor.RED + "- " + ChatColor.YELLOW + adjusted);
+            display.setCustomName(ChatColor.YELLOW + "" + ChatColor.BOLD + plugin.econ.format(adjusted));
+
+            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+            player.sendMessage(ChatColor.RED + "- " + ChatColor.YELLOW + plugin.econ.format(adjusted));
 
         } else {
             player.sendMessage("You have reached the minimum wager!");

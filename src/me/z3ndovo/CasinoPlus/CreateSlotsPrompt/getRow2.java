@@ -68,6 +68,8 @@ public class getRow2 extends StringPrompt {
             slotsData.set("slots." + name + ".rows.2." + getabc(i) + ".y", Integer.parseInt(args[3 + i]));
             slotsData.set("slots." + name + ".rows.2." + getabc(i) + ".z", Integer.parseInt(args[6 + i]));
         }
+
+        slotsData.set("slots." + name + ".in-use", false);
         plugin.cfgM.saveSlotsData();
         slotMachine.start(con.getSessionData("name").toString(), player);
 
