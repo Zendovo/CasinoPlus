@@ -4,9 +4,11 @@ name: CasinoPlus
 description: This plugin does so much stuff it can't be contained!
 author: z3ndovo
 api-version: 1.13
+depend: [Vault]
+
 commands:
   createslots:
-    usage: /createslots
+    usage: /<command>
     description: Run commands
   test:
-    usage: /test
+    usage: /<command>
