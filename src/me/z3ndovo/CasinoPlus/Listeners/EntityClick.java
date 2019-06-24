@@ -1,9 +1,10 @@
 package me.z3ndovo.CasinoPlus.Listeners;
 
 import me.z3ndovo.CasinoPlus.Core;
+import me.z3ndovo.CasinoPlus.Files.Messages;
 import me.z3ndovo.CasinoPlus.SlotMachine.SlotMachine;
 import me.z3ndovo.CasinoPlus.Utils.AdjustWager;
-import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -18,6 +19,7 @@ public class EntityClick implements Listener {
     SlotMachine slotMachine;
     AdjustWager adjustWager;
     Core plugin = Core.getPlugin(Core.class);
+    FileConfiguration messages;
     private FileConfiguration slotsData = plugin.cfgM.getSlotsData();
 
 
@@ -25,6 +27,7 @@ public class EntityClick implements Listener {
     public void onEntityRightClick(PlayerInteractAtEntityEvent e) {
         this.slotMachine = new SlotMachine(plugin);
         this.adjustWager = new AdjustWager(plugin);
+        this.messages = plugin.cfgM.getMsg();
 
         Entity entity = e.getRightClicked();
         Player player = e.getPlayer();
@@ -37,16 +40,52 @@ public class EntityClick implements Listener {
             boolean slotsDec = compareUUID(uuid, player, "display.uuid.0");
 
             if(slotsStart) {
-				slotMachine.start(getKey(uuid, "start.uuid"), player);
-				e.setCancelled(true);
+                e.setCancelled(true);
+
+                String key = getKey(uuid, "start.uuid");
+                if (player.hasPermission("casinoplus.slots.use." + key)) {
+                    slotMachine.start(key, player);
+                } else {
+                    if(messages.getString("slots.no-permission." + key) == null) {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("no-permission")));
+
+                    } else {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("slots.no-permission." + key)));
+
+                    }
+                }
 
             } else if (slotsInc) {
-                adjustWager.increaseWager(getKey(uuid, "display.uuid.2"), player);
                 e.setCancelled(true);
 
+                String key = getKey(uuid, "display.uuid.2");
+                if (player.hasPermission("casinoplus.slots.use." + key)) {
+                    adjustWager.increaseWager(key, player);
+                } else {
+                    if(messages.getString("slots.no-permission." + key) == null) {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("no-permission")));
+
+                    } else {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("slots.no-permission." + key)));
+
+                    }
+                }
+
             } else if (slotsDec) {
-                adjustWager.decreaseWager(getKey(uuid, "display.uuid.0"), player);
                 e.setCancelled(true);
+
+                String key = getKey(uuid, "display.uuid.0");
+                if (player.hasPermission("casinoplus.slots.use." + key)) {
+                    adjustWager.increaseWager(key, player);
+                } else {
+                    if(messages.getString("slots.no-permission." + key) == null) {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("no-permission")));
+
+                    } else {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("slots.no-permission." + key)));
+
+                    }
+                }
 
             }
         }

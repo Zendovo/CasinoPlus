@@ -12,3 +12,17 @@ commands:
     description: Run commands
   test:
     usage: /<command>
+
+permissions:
+  casinoplus.*:
+    description: Use all CasinoPlus commands.
+    children:
+      casinoplus.admin: true
+      casinoplus.slots.use.all: true
+    default: op
+  casinoplus.admin:
+    description: Use admin commands.
+    default: op
+  casinoplus.slots.use.all:
+    description: Use all slot machines.
+    default: true

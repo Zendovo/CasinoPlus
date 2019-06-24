@@ -1,0 +1,11 @@
+version: 1
+
+insufficient-bal: "&cYou do not have the sufficient balance in your account!"
+take-bal: "&e{wager} &fwas taken from your balance!"
+in-use: "&cThe machine is currently in use."
+win-msg: "&bYou won &e&l{reward}&b."
+lost-msg: "&cYou lost."
+no-permission: "&cYou have no permission to do this!"
+
+increase-wager: "&dIncreased wager to &e&l{new}"
+decrease-wager: "&cDecreased wager to &e&l{new}"

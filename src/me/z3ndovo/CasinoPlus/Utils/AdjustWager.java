@@ -15,6 +15,7 @@ import java.util.UUID;
 public class AdjustWager {
     Core plugin;
     private FileConfiguration slotsData;
+    private FileConfiguration messages;
 
     public AdjustWager(Core plugin) {
         this.plugin = plugin;
@@ -22,6 +23,7 @@ public class AdjustWager {
 
     public void increaseWager(String key, Player player) {
         this.slotsData = plugin.cfgM.getSlotsData();
+        this.messages = plugin.cfgM.getMsg();
 
         int max = slotsData.getInt("slots." + key + ".wager.max");
         int min = slotsData.getInt("slots." + key + ".wager.min");
@@ -38,7 +40,7 @@ public class AdjustWager {
             display.setCustomName(ChatColor.YELLOW + "" + ChatColor.BOLD + plugin.econ.format(adjusted));
 
             player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-            player.sendMessage(ChatColor.GREEN + "+ " + ChatColor.YELLOW + plugin.econ.format(adjusted));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("increase-wager").replace("{new}", plugin.econ.format(adjusted))));
 
         } else {
             player.sendMessage("You have reached the maximum wager!");
@@ -48,6 +50,7 @@ public class AdjustWager {
 
     public void decreaseWager(String key, Player player) {
         this.slotsData = plugin.cfgM.getSlotsData();
+        this.messages = plugin.cfgM.getMsg();
 
         int max = slotsData.getInt("slots." + key + ".wager.max");
         int min = slotsData.getInt("slots." + key + ".wager.min");
@@ -64,7 +67,7 @@ public class AdjustWager {
             display.setCustomName(ChatColor.YELLOW + "" + ChatColor.BOLD + plugin.econ.format(adjusted));
 
             player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-            player.sendMessage(ChatColor.RED + "- " + ChatColor.YELLOW + plugin.econ.format(adjusted));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("decrease-wager").replace("{new}", plugin.econ.format(adjusted))));
 
         } else {
             player.sendMessage("You have reached the minimum wager!");

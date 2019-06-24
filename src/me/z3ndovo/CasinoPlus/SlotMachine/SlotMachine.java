@@ -1,7 +1,6 @@
 package me.z3ndovo.CasinoPlus.SlotMachine;
 
 import me.z3ndovo.CasinoPlus.Core;
-import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -24,6 +23,7 @@ public class SlotMachine {
 
     public Core plugin;
     private FileConfiguration slotsData;
+    private FileConfiguration messages;
     private Rewards rewards;
 
     //Constructor for ConfigManager
@@ -34,9 +34,10 @@ public class SlotMachine {
     public void start(String key, Player player) {
         this.rewards = new Rewards();
         this.slotsData = plugin.cfgM.getSlotsData();
+        this.messages = plugin.cfgM.getMsg();
 
         if (slotsData.getBoolean("slots." + key + ".in-use")) {
-            player.sendMessage("The slot machine is in use!");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("in-use")));
 
         } else {
 
@@ -47,11 +48,11 @@ public class SlotMachine {
             //Check Transaction
             if (!econRes.transactionSuccess()) {
 
-                player.sendMessage(ChatColor.RED + "You do not have the sufficient balance in your account!");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("insufficient-bal")));
 
             } else {
 
-                player.sendMessage(ChatColor.YELLOW + plugin.econ.format(wager) + ChatColor.WHITE + " was taken from your balance!");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("take-bal")).replace("{wager}", plugin.econ.format(wager)));
 
                 slotsData.set("slots." + key + ".in-use", true);
                 plugin.cfgM.saveSlotsData();
@@ -108,9 +109,10 @@ public class SlotMachine {
 
                                 if(reward != 0) {
                                     plugin.econ.depositPlayer(player, reward);
-                                    player.sendMessage("You won $" + plugin.econ.format(reward));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes
+                                            ('&', messages.getString("win-msg")).replace("{reward}", plugin.econ.format(reward)));
                                 } else {
-                                    player.sendMessage("You lost.");
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("lost-msg")));
                                 }
 
                                 slotsData.set("slots." + key + ".in-use", false);
