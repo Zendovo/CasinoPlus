@@ -1,6 +1,7 @@
 package me.z3ndovo.CasinoPlus;
 
 import me.z3ndovo.CasinoPlus.Commands.CreateSlots;
+import me.z3ndovo.CasinoPlus.Commands.ResetSlots;
 import me.z3ndovo.CasinoPlus.Commands.Test;
 import me.z3ndovo.CasinoPlus.Files.ConfigManager;
 import me.z3ndovo.CasinoPlus.Listeners.EntityClick;
@@ -45,6 +46,7 @@ public class Core extends JavaPlugin {
         //Register Commands
         this.getCommand("createslots").setExecutor(new CreateSlots());
         this.getCommand("test").setExecutor(new Test());
+        this.getCommand("resetslots").setExecutor(new ResetSlots());
 
     }
 

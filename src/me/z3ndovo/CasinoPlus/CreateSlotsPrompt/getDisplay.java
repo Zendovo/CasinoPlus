@@ -60,7 +60,6 @@ public class getDisplay extends StringPrompt {
         slotsData.set("slots." + name + ".display.uuid.0", asSub.getUniqueId().toString());
         asSub.setHelmet(getSkull.getSkullStack(urlSub, "Sub", 1, UUID.randomUUID().toString()));
 
-
         ArmorStand asWager = locWager.getWorld().spawn(locWager, ArmorStand.class);
         setAttributes(asWager, true);
         asWager.setCustomName(ChatColor.YELLOW + "" + ChatColor.BOLD + slotsData.getInt("slots." + name + ".wager.current"));

@@ -10,6 +10,9 @@ commands:
   createslots:
     usage: /<command>
     description: Run commands
+  resetslots:
+    usage: /<command>
+    description: Run commands
   test:
     usage: /<command>
 
@@ -25,4 +28,4 @@ permissions:
     default: op
   casinoplus.slots.use.all:
     description: Use all slot machines.
-    default: true
+    default: false

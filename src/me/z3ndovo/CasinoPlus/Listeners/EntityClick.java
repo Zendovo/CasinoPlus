@@ -16,12 +16,13 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import java.util.UUID;
 
 public class EntityClick implements Listener {
-    SlotMachine slotMachine;
-    AdjustWager adjustWager;
-    Core plugin = Core.getPlugin(Core.class);
-    FileConfiguration messages;
-    private FileConfiguration slotsData = plugin.cfgM.getSlotsData();
+    private SlotMachine slotMachine;
+    private AdjustWager adjustWager;
 
+    Core plugin = Core.getPlugin(Core.class);
+
+    private FileConfiguration messages;
+    private FileConfiguration slotsData = plugin.cfgM.getSlotsData();
 
     @EventHandler
     public void onEntityRightClick(PlayerInteractAtEntityEvent e) {
@@ -43,7 +44,7 @@ public class EntityClick implements Listener {
                 e.setCancelled(true);
 
                 String key = getKey(uuid, "start.uuid");
-                if (player.hasPermission("casinoplus.slots.use." + key)) {
+                if (player.hasPermission("casinoplus.slots.use." + key) || player.hasPermission("casinoplus.slots.use.all")) {
                     slotMachine.start(key, player);
                 } else {
                     if(messages.getString("slots.no-permission." + key) == null) {
@@ -59,7 +60,7 @@ public class EntityClick implements Listener {
                 e.setCancelled(true);
 
                 String key = getKey(uuid, "display.uuid.2");
-                if (player.hasPermission("casinoplus.slots.use." + key)) {
+                if (player.hasPermission("casinoplus.slots.use." + key) || player.hasPermission("casinoplus.slots.use.all")) {
                     adjustWager.increaseWager(key, player);
                 } else {
                     if(messages.getString("slots.no-permission." + key) == null) {
@@ -75,7 +76,7 @@ public class EntityClick implements Listener {
                 e.setCancelled(true);
 
                 String key = getKey(uuid, "display.uuid.0");
-                if (player.hasPermission("casinoplus.slots.use." + key)) {
+                if (player.hasPermission("casinoplus.slots.use." + key) || player.hasPermission("casinoplus.slots.use.all")) {
                     adjustWager.increaseWager(key, player);
                 } else {
                     if(messages.getString("slots.no-permission." + key) == null) {
