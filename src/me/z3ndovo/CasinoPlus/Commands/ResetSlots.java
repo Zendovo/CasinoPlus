@@ -2,33 +2,26 @@ package me.z3ndovo.CasinoPlus.Commands;
 
 import me.z3ndovo.CasinoPlus.Core;
 import me.z3ndovo.CasinoPlus.Utils.GetSkull;
-import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-public class ResetSlots implements CommandExecutor {
+public class ResetSlots {
 
     Core plugin = Core.getPlugin(Core.class);
     private FileConfiguration slotsData;
     private FileConfiguration messages;
     private GetSkull getSkull = new GetSkull(plugin);
 
-
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean reset(CommandSender sender, Command cmd, String label, String[] args) {
         this.slotsData = plugin.cfgM.getSlotsData();
         this.messages = plugin.cfgM.getMsg();
 
@@ -38,18 +31,25 @@ public class ResetSlots implements CommandExecutor {
             return true;
         }
 
-        if(args.length < 1) {
+        if(args.length < 3) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cEnter the name of the slot machine you want to reset!"));
             return true;
         }
 
-        String key = args[0];
+        String key = args[2];
 
-        respawnStart(slotsData, key);
-        respawnDisplay(slotsData, key);
-        respawnRow0(slotsData, key);
-        respawnRow1(slotsData, key);
-        respawnRow2(slotsData, key);
+        try {
+            respawnStart(slotsData, key);
+            respawnDisplay(slotsData, key);
+            respawnRow0(slotsData, key);
+            respawnRow1(slotsData, key);
+            respawnRow2(slotsData, key);
+
+        } catch (IllegalArgumentException e) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cSlot Machine not found!"));
+            plugin.getLogger().warning("Error occurred: IAE - Wrong Name?");
+            return true;
+        }
 
         plugin.cfgM.saveSlotsData();
         plugin.cfgM.reloadSlotsData();

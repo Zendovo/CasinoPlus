@@ -3,6 +3,7 @@ package me.z3ndovo.CasinoPlus.CreateSlotsPrompt;
 import me.z3ndovo.CasinoPlus.Core;
 import me.z3ndovo.CasinoPlus.SlotMachine.SlotMachine;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.conversations.ConversationContext;
@@ -25,8 +26,14 @@ public class getRow2 extends StringPrompt {
         con.getForWhom().sendRawMessage("");
         con.getForWhom().sendRawMessage("");
         con.getForWhom().sendRawMessage("");
-        con.getForWhom().sendRawMessage("Type the co-ordinates of the bottom row slots (<xA> <xB> <xC> <yA> <yB> <yC> <zA> <zB> <zC>):");
-        return "A is the left slot, the B middle, the C right.";
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage(ChatColor.translateAlternateColorCodes('&',"&eType the co-ordinates of the bottom row slots &7(&b<xA> &a<xB> &d<xC> &b<yA> &a<yB> &d<yC> &b<zA> &a<zB> &d<zC>):"));
+        con.getForWhom().sendRawMessage(ChatColor.translateAlternateColorCodes('&',"&bA &7is the &bleft slot&7, the &aB middle&7, the &dC right&7."));
+        return "-----------------------------------------------";
     }
 
     @Override

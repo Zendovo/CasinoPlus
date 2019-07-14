@@ -4,25 +4,23 @@ import me.z3ndovo.CasinoPlus.Core;
 import me.z3ndovo.CasinoPlus.CreateSlotsPrompt.getName;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 
-public class CreateSlots implements CommandExecutor {
+public class CreateSlots {
 
     Core plugin = Core.getPlugin(Core.class);
     private FileConfiguration slotsData;
     private FileConfiguration messages;
 
     /*
-        /casinoplus slots create <name>
+        /createslots
     */
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
+    public boolean create(CommandSender sender, Command cmd, String s, String[] args) {
         this.slotsData = plugin.cfgM.getSlotsData();
         this.messages = plugin.cfgM.getMsg();
 

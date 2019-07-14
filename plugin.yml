@@ -7,14 +7,9 @@ api-version: 1.13
 depend: [Vault]
 
 commands:
-  createslots:
+  casinoplus:
     usage: /<command>
     description: Run commands
-  resetslots:
-    usage: /<command>
-    description: Run commands
-  test:
-    usage: /<command>
 
 permissions:
   casinoplus.*:

@@ -12,8 +12,6 @@ import org.bukkit.conversations.StringPrompt;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class getDisplay extends StringPrompt {
@@ -27,7 +25,13 @@ public class getDisplay extends StringPrompt {
         con.getForWhom().sendRawMessage("");
         con.getForWhom().sendRawMessage("");
         con.getForWhom().sendRawMessage("");
-        return "Type the co-ordinates of the wager display (<x> <y> <z>):";
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage(ChatColor.translateAlternateColorCodes('&', "&eType the co-ordinates of the wager display &7(&b<x> &e<y> &c<z>&7):"));
+        return "-----------------------------------------------";
     }
 
     @Override

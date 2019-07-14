@@ -1,7 +1,7 @@
 package me.z3ndovo.CasinoPlus.CreateSlotsPrompt;
 
 import me.z3ndovo.CasinoPlus.Core;
-import me.z3ndovo.CasinoPlus.Files.ConfigManager;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
@@ -22,7 +22,13 @@ public class getName extends StringPrompt {
         con.getForWhom().sendRawMessage("");
         con.getForWhom().sendRawMessage("");
         con.getForWhom().sendRawMessage("");
-        return "Type the name of the slot machine:";
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage(ChatColor.translateAlternateColorCodes('&', "&fType the name of the slot machine&7:"));
+        return "-----------------------------------------------";
     }
 
     @Override

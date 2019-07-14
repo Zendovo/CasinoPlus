@@ -10,14 +10,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class SlotMachine {
 
-    private int n = 4;
     private Random randomGen = new Random();
     private final List<String> abc = Arrays.asList("a", "b", "c");
 
@@ -35,6 +31,10 @@ public class SlotMachine {
         this.rewards = new Rewards();
         this.slotsData = plugin.cfgM.getSlotsData();
         this.messages = plugin.cfgM.getMsg();
+
+        HashMap<ItemStack, Integer> map = getMap(key);
+        ArrayList<ItemStack> itemArray = getArray(map);
+        int n = itemArray.size();
 
         if (slotsData.getBoolean("slots." + key + ".in-use")) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("in-use")));
@@ -89,17 +89,17 @@ public class SlotMachine {
                                 String s0 = slotsData.getString("slots." + key + ".rows.0." + x + ".uuid");
                                 UUID u0 = UUID.fromString(s0);
                                 ArmorStand as0 = getAsByUniqueId(u0);
-                                as0.setHelmet(getItemStack(row0.getValue(x)));
+                                as0.setHelmet(getItemStack(row0.getValue(x), itemArray));
 
                                 String s1 = slotsData.getString("slots." + key + ".rows.1." + x + ".uuid");
                                 UUID u1 = UUID.fromString(s1);
                                 ArmorStand as1 = getAsByUniqueId(u1);
-                                as1.setHelmet(getItemStack(row1.getValue(x)));
+                                as1.setHelmet(getItemStack(row1.getValue(x), itemArray));
 
                                 String s2 = slotsData.getString("slots." + key + ".rows.2." + x + ".uuid");
                                 UUID u2 = UUID.fromString(s2);
                                 ArmorStand as2 = getAsByUniqueId(u2);
-                                as2.setHelmet(getItemStack(row2.getValue(x)));
+                                as2.setHelmet(getItemStack(row2.getValue(x), itemArray));
                             }
 
                             //Play Sound and Give Reward
@@ -150,20 +150,45 @@ public class SlotMachine {
     }
 
     //Convert int to ItemStack
-    public ItemStack getItemStack(int value) {
-        if (value == 0) {
-            ItemStack is = new ItemStack(Material.DIAMOND_BLOCK, 1);
-            return(is);
-        } else if (value == 1) {
-            ItemStack is = new ItemStack(Material.GOLD_BLOCK, 1);
-            return(is);
-        } else if (value == 2){
-            ItemStack is = new ItemStack(Material.IRON_BLOCK, 1);
-            return(is);
-        } else{
-            ItemStack is = new ItemStack(Material.COAL_BLOCK, 1);
-            return(is);
-        }
+    public ItemStack getItemStack(int value, ArrayList<ItemStack> arrayList) {
+        ItemStack itemStack = arrayList.get(value);
+
+        return itemStack;
+
     }
 
+    public HashMap<ItemStack, Integer> getMap(String key) {
+        this.slotsData = plugin.cfgM.getSlotsData();
+
+        List<String> list = slotsData.getStringList("slots." + key + ".item-weights");
+        HashMap<ItemStack, Integer> ItemWeightMap = new HashMap<>();
+
+        for (String items : list) {
+            String[] s = items.split(" ");
+
+            int weight = Integer.parseInt(s[1]);
+            ItemStack itemStack = new ItemStack(Material.getMaterial(s[0]), 1);
+
+            ItemWeightMap.put(itemStack, weight);
+        }
+
+        return ItemWeightMap;
+    }
+
+    public ArrayList<ItemStack> getArray(HashMap<ItemStack, Integer> map) {
+
+        ArrayList<ItemStack> array = new ArrayList<>();
+
+        for (ItemStack item : map.keySet()) {
+
+            int value = map.get(item);
+
+            for (int i = 0; i < value; i++) {
+                array.add(item);
+            }
+
+        }
+
+        return array;
+    }
 }

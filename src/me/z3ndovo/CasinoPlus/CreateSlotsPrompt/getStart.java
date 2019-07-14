@@ -26,7 +26,13 @@ public class getStart extends StringPrompt {
         con.getForWhom().sendRawMessage("");
         con.getForWhom().sendRawMessage("");
         con.getForWhom().sendRawMessage("");
-        return "Type the co-ordinates of the start button (<x> <y> <z>):";
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage("");
+        con.getForWhom().sendRawMessage(ChatColor.translateAlternateColorCodes('&',"&eType the co-ordinates of the start button &7(&b<x> &e<y> &c<z>&7):"));
+        return "-----------------------------------------------";
     }
 
     @Override
